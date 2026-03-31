@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard</title>
+</head>
+<body>
+
+<h2>🛠 Admin Panel - Energy Records</h2>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Electricity</th>
+        <th>Petrol</th>
+        <th>Waste</th>
+        <th>Carbon</th>
+        <th>Prediction</th>
+        <th>Date</th>
+    </tr>
+
+    <tr th:each="e : ${allData}">
+        <td th:text="${e.id}"></td>
+        <td th:text="${e.electricityKwh}"></td>
+        <td th:text="${e.petrolLiters}"></td>
+        <td th:text="${e.wasteKg}"></td>
+        <td th:text="${e.carbonFootprint}"></td>
+        <td th:text="${e.predictedCarbon}"></td>
+        <td th:text="${e.createdAt}"></td>
+    </tr>
+
+</table>
+
+<br>
+<a href="/"> Back to Dashboard</a>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Carbon Result</title>
+</head>
+<body>
+
+<h2>🌍 Carbon Analysis Result</h2>
+
+<p>Total Carbon Footprint:
+    <b th:text="${result.carbonFootprint}"></b> kg CO₂
+</p>
+
+<p>🔮 Predicted Next Carbon:
+    <b th:text="${result.predictedCarbon}"></b> kg CO₂
+</p>
+
+<p>🔮 Recommmended Electricity:
+    <b th:text="${result.recommendedElectricity}"></b> kg CO₂
+</p>
+
+<p>🔮 Recommmended Petrol:
+    <b th:text="${result.recommendedPetrol}"></b> kg CO₂
+</p>
+
+<a href="/">Go Back</a>
+
+</body>
+</html>
