@@ -4,10 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -21,11 +22,14 @@ public class EnergyUsage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotNull(message="electricity is required")
+    @Positive
     private double electricityKwh;
-    @NotNull
+    @NotNull(message = "petrol is required")
+    @Positive
     private double petrolLiters;
-    @NotNull
+    @NotNull(message = "wastage is required")
+    @Positive
     private double wasteKg;
 
     private double carbonFootprint;
