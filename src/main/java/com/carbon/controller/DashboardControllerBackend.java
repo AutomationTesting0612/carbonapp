@@ -26,8 +26,8 @@ public class DashboardControllerBackend {
 //        return "dashboard";
 //    }
 
-    @PostMapping("/submit")
-    public PredictionResponse submit(@RequestBody EnergyUsage energy) {
+    @PostMapping("/create")
+    public PredictionResponse createNew(@RequestBody EnergyUsage energy) {
 
         double carbon = calculator.calculate(
                 energy.getElectricityKwh(),
