@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -20,8 +21,11 @@ public class EnergyUsage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private double electricityKwh;
+    @NotNull
     private double petrolLiters;
+    @NotNull
     private double wasteKg;
 
     private double carbonFootprint;

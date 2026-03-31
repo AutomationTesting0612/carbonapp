@@ -19,6 +19,7 @@ public class SecurityClass {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/admin").hasRole("ADMIN")   // 👈 Admin only
                         .requestMatchers("/", "/submit").hasAnyRole("USER", "ADMIN")

@@ -5,7 +5,10 @@ import com.carbon.entity.PredictionResponse;
 import com.carbon.repository.EnergyRepository;
 import com.carbon.service.CarbonCalculatorService;
 import com.carbon.service.MlClient;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +30,8 @@ public class DashboardControllerBackend {
 //    }
 
     @PostMapping("/create")
-    public PredictionResponse createNew(@RequestBody EnergyUsage energy) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public EnergyUsage createNew(@Valid @RequestBody EnergyUsage energy) {
 
         double carbon = calculator.calculate(
                 energy.getElectricityKwh(),
@@ -47,11 +51,12 @@ public class DashboardControllerBackend {
 
         repository.save(energy);
 
-        return prediction;
+        return energy;
     }
 
     @PutMapping("/update")
-    public PredictionResponse update(@RequestBody EnergyUsage energy) {
+    @ResponseStatus(HttpStatus.OK)
+    public EnergyUsage update(@Valid @RequestBody EnergyUsage energy) {
 
         double carbon = calculator.calculate(
                 energy.getElectricityKwh(),
@@ -71,7 +76,7 @@ public class DashboardControllerBackend {
 
         repository.save(energy);
 
-        return prediction;
+        return energy;
     }
 
     @GetMapping("/get/{id}")
