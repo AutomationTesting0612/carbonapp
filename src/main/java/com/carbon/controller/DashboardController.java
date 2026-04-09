@@ -46,7 +46,6 @@ public class DashboardController {
         energy.setRecommendedPetrol(prediction.getRecommendedPetrol());
         energy.setCreatedAt(LocalDateTime.now());
 
-
         repository.save(energy);
 
         model.addAttribute("result", energy);

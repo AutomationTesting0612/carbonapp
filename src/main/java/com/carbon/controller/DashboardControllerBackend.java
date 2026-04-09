@@ -1,5 +1,6 @@
 package com.carbon.controller;
 
+import ch.qos.logback.classic.spi.IThrowableProxy;
 import com.carbon.entity.EnergyUsage;
 import com.carbon.entity.PredictionResponse;
 import com.carbon.repository.EnergyRepository;
@@ -31,7 +32,7 @@ public class DashboardControllerBackend {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public EnergyUsage createNew(@Valid @RequestBody EnergyUsage energy) {
+    public EnergyUsage createNew(@Valid @RequestBody EnergyUsage energy) throws Exception {
 
         double carbon = calculator.calculate(
                 energy.getElectricityKwh(),
@@ -47,7 +48,9 @@ public class DashboardControllerBackend {
         energy.setRecommendedElectricity(prediction.getRecommendedElectricity());
         energy.setRecommendedPetrol(prediction.getRecommendedPetrol());
         energy.setCreatedAt(LocalDateTime.now());
-
+        if(repository.existsByElectricityKwh(energy.getElectricityKwh())) {
+            throw new Exception("Electricty ALready Defined");
+        }
 
         repository.save(energy);
 
@@ -56,7 +59,7 @@ public class DashboardControllerBackend {
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.OK)
-    public EnergyUsage update(@Valid @RequestBody EnergyUsage energy) {
+    public EnergyUsage update(@Valid @RequestBody EnergyUsage energy) throws Exception {
 
         double carbon = calculator.calculate(
                 energy.getElectricityKwh(),
@@ -73,7 +76,9 @@ public class DashboardControllerBackend {
         energy.setRecommendedPetrol(prediction.getRecommendedPetrol());
         energy.setCreatedAt(LocalDateTime.now());
 
-
+if(repository.existsByElectricityKwh(energy.getElectricityKwh())) {
+    throw new Exception("Electricty ALready Defined");
+}
         repository.save(energy);
 
         return energy;
@@ -84,6 +89,26 @@ public class DashboardControllerBackend {
 
         var entity = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Prediction not found with id: " + id));
+
+        return new EnergyUsage(
+                entity.getId(),
+                entity.getElectricityKwh(),
+                entity.getWasteKg(),
+                entity.getPetrolLiters(),
+                entity.getCarbonFootprint(),
+                entity.getPredictedCarbon(),
+                entity.getRecommendedElectricity(),
+                entity.getRecommendedPetrol(),
+                entity.getCreatedAt()
+        );
+    }
+    @GetMapping("/getParam")
+    public EnergyUsage getParam(@RequestParam Long id) {
+
+        var entity = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Prediction not found with id: " + id));
+
+
 
         return new EnergyUsage(
                 entity.getId(),
