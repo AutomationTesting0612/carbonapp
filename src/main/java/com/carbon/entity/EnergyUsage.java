@@ -22,14 +22,14 @@ public class EnergyUsage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message="electricity is required")
-    @Positive
+//    @NotNull(message="electricity is required")
+//    @Positive
     private double electricityKwh;
-    @NotNull(message = "petrol is required")
-    @Positive
+//    @NotNull(message = "petrol is required")
+//    @Positive
     private double petrolLiters;
-    @NotNull(message = "wastage is required")
-    @Positive
+//    @NotNull(message = "wastage is required")
+//    @Positive
     private double wasteKg;
 
     private double carbonFootprint;

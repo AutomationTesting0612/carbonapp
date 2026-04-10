@@ -3,9 +3,12 @@ package com.carbon.controller;
 import ch.qos.logback.classic.spi.IThrowableProxy;
 import com.carbon.entity.EnergyUsage;
 import com.carbon.entity.PredictionResponse;
+import com.carbon.exception.BadRequestException;
+import com.carbon.exception.RecordAlreadyExist;
 import com.carbon.repository.EnergyRepository;
 import com.carbon.service.CarbonCalculatorService;
 import com.carbon.service.MlClient;
+import com.carbon.util.Constants;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -48,8 +51,13 @@ public class DashboardControllerBackend {
         energy.setRecommendedElectricity(prediction.getRecommendedElectricity());
         energy.setRecommendedPetrol(prediction.getRecommendedPetrol());
         energy.setCreatedAt(LocalDateTime.now());
+
         if(repository.existsByElectricityKwh(energy.getElectricityKwh())) {
-            throw new Exception("Electricty ALready Defined");
+            throw new RecordAlreadyExist(Constants.conflictMessage);
+        }
+
+        if(energy.getElectricityKwh() < energy.getPetrolLiters()) {
+            throw new BadRequestException(Constants.badRequestMessage);
         }
 
         repository.save(energy);
